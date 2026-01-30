@@ -6,7 +6,7 @@ from labyrinth_game.player_actions import (
     take_item,
     use_item,
 )
-from labyrinth_game.utils import describe_current_room, normalize_command
+from labyrinth_game.utils import describe_current_room, normalize_command, show_help
 
 
 def process_command(game_state: dict, command_line: str) -> None:
@@ -46,8 +46,12 @@ def process_command(game_state: dict, command_line: str) -> None:
             else:
                 use_item(game_state, arg)
 
+        case "help":
+            show_help()
+
         case _:
             print("Неизвестная команда. Доступно: look, go, take, use, inventory, quit")
+
 
 
 
