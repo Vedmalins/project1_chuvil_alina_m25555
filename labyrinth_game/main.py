@@ -10,6 +10,7 @@ from labyrinth_game.utils import (
     attempt_open_treasure,
     describe_current_room,
     normalize_command,
+    random_event,
     show_help,
     solve_puzzle,
 )
@@ -41,6 +42,7 @@ def process_command(game_state: dict, command_line: str) -> None:
                 moved = move_player(game_state, arg)
                 if moved:
                     describe_current_room(game_state)
+                    random_event(game_state)
 
 
         case "take":

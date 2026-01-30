@@ -79,6 +79,37 @@ def trigger_trap(game_state: dict) -> None:
         print("Вам повезло — вы уцелели.")
 
 
+def random_event(game_state: dict) -> None:
+    # 1) Случится ли событие? (1 шанс из 10)
+    chance = pseudo_random(game_state["steps_taken"], 10)
+    if chance != 0:
+        return
+
+    # 2) Какое событие? (0..2)
+    event_type = pseudo_random(game_state["steps_taken"] + 1, 3)
+
+    current_room_name = game_state["current_room"]
+    room = ROOMS[current_room_name]
+
+    if event_type == 0:
+        print("Вы замечаете на полу монетку.")
+        room["items"].append("coin")
+        return
+
+    if event_type == 1:
+        print("Вы слышите подозрительный шорох в темноте...")
+        if "sword" in game_state["player_inventory"]:
+            print("Вы достаёте меч — и шорох стихает.")
+        return
+
+    # event_type == 2
+    inventory = game_state["player_inventory"]
+
+    if current_room_name == "trap_room" and "torch" not in inventory:
+        print("Пол под ногами опасно вибрирует... Кажется, это ловушка!")
+        trigger_trap(game_state)
+
+
 def attempt_open_treasure(game_state: dict) -> None:
     room_name = game_state["current_room"]
     room = ROOMS[room_name]
