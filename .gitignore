@@ -8,3 +8,10 @@ __pycache__/
 
 .DS_Store
 .vscode/
+
+.ruff_cache/
+
+# на всякий
+*.egg-info/
+.coverage
+.pytest_cache/

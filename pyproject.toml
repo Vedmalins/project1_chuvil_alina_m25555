@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "project1-chuvil-alina-m25555"
 version = "0.1.0"
-description = ""
-authors = ["chuvil"]
+description = "Текстовая приключенческая игра 'Лабиринт сокровищ' в консоли"
+authors = ["Alina Chuvil"]
 readme = "README.md"
 packages = [
     { include = "labyrinth_game" },
