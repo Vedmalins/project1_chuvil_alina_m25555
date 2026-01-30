@@ -1,6 +1,12 @@
 import math
 
-from labyrinth_game.constants import ROOMS
+from labyrinth_game.constants import (
+    EVENT_PROBABILITY,
+    EVENT_TYPES_COUNT,
+    ROOMS,
+    TRAP_DAMAGE_MODULO,
+    TRAP_DEATH_THRESHOLD,
+)
 
 
 def normalize_command(command: str) -> str:
@@ -90,8 +96,8 @@ def trigger_trap(game_state: dict) -> None:
         print(f"Вы потеряли предмет: {lost_item}")
         return
 
-    roll = pseudo_random(game_state["steps_taken"], 10)
-    if roll < 3:
+    roll = pseudo_random(game_state["steps_taken"], TRAP_DAMAGE_MODULO)
+    if roll < TRAP_DEATH_THRESHOLD:
         print("Вы получили смертельный урон. Вы проиграли.")
         game_state["game_over"] = True
     else:
@@ -99,13 +105,13 @@ def trigger_trap(game_state: dict) -> None:
 
 
 def random_event(game_state: dict) -> None:
-    # 1) Случится ли событие? (1 шанс из 10)
-    chance = pseudo_random(game_state["steps_taken"], 10)
+    # Случится ли событие? 1 шанс из 10
+    chance = pseudo_random(game_state["steps_taken"], EVENT_PROBABILITY)
     if chance != 0:
         return
 
-    # 2) Какое событие? (0..2)
-    event_type = pseudo_random(game_state["steps_taken"] + 1, 3)
+    # Какое событие? (0..2)
+    event_type = pseudo_random(game_state["steps_taken"] + 1, EVENT_TYPES_COUNT)
 
     current_room_name = game_state["current_room"]
     room = ROOMS[current_room_name]

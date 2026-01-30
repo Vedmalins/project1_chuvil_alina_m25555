@@ -14,6 +14,10 @@ COMMANDS = {
     "quit": "выйти из игры",
 }
 
+EVENT_PROBABILITY = 10          # 1 шанс из 10 на случайное событие
+EVENT_TYPES_COUNT = 3           # всего 3 типа событий
+TRAP_DAMAGE_MODULO = 10         # бросок 0-9 при ловушке без предметов
+TRAP_DEATH_THRESHOLD = 3        # если < 3 юзер погибает
 
 ROOMS = {
     "entrance": {
