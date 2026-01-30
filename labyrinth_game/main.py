@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from labyrinth_game.constants import COMMANDS
 from labyrinth_game.player_actions import (
     get_input,
     move_player,
@@ -23,6 +24,12 @@ def process_command(game_state: dict, command_line: str) -> None:
 
     command = parts[0]
     arg = parts[1] if len(parts) > 1 else ""
+
+    directions = {"north", "south", "east", "west"}
+    if command in directions:
+        arg = command
+        command = "go"
+
 
     match command:
         case "quit" | "exit":
@@ -64,7 +71,7 @@ def process_command(game_state: dict, command_line: str) -> None:
                 solve_puzzle(game_state)
 
         case "help":
-            show_help()
+            show_help(COMMANDS)
 
         case _:
             print("Неизвестная команда. Доступно: look, go, take, use, inventory, quit")

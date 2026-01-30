@@ -39,16 +39,35 @@ def solve_puzzle(game_state: dict) -> None:
     print(question)
     user_answer = input("Ваш ответ: ").strip().lower()
 
-    if user_answer == answer.strip().lower():
+    # список допустимых ответов 
+    valid_answers = {answer.strip().lower()}
+
+    # альтернативные варианты 
+    if answer.strip() == "10":
+        valid_answers.add("десять")
+
+    # проверка ответа 
+    if user_answer in valid_answers:
         print("Верно! Загадка решена.")
         room["puzzle"] = None
 
-        # награда: выдадим ключ (минимально, чтобы появилась победа)
-        if "treasure_key" not in game_state["player_inventory"]:
-            game_state["player_inventory"].append("treasure_key")
-            print("Вы получаете награду: treasure_key!")
+        # награда зависит от комнаты 
+        reward_by_room = {
+            "hall": "treasure_key",
+            "trap_room": "coin",
+        }
+
+        reward = reward_by_room.get(room_name)
+        if reward and reward not in game_state["player_inventory"]:
+            game_state["player_inventory"].append(reward)
+            print(f"Вы получаете награду: {reward}!")
     else:
         print("Неверно. Попробуйте снова.")
+
+        # если ошибка в trap_room то ловушка срабатывает 
+        if room_name == "trap_room":
+            trigger_trap(game_state)
+
 
 
 def pseudo_random(seed: int, modulo: int) -> int:
@@ -152,13 +171,8 @@ def attempt_open_treasure(game_state: dict) -> None:
         print("Код неверный.")
 
 
-def show_help() -> None:
+def show_help(commands: dict[str, str]) -> None:
     print("\nДоступные команды:")
-    print("  go <direction>  - перейти (north/south/east/west)")
-    print("  look            - осмотреть текущую комнату")
-    print("  take <item>     - поднять предмет")
-    print("  use <item>      - использовать предмет из инвентаря")
-    print("  inventory       - показать инвентарь")
-    print("  solve           - попытаться решить загадку в комнате")
-    print("  quit            - выйти из игры")
-    print("  help            - показать это сообщение")
+    for cmd, desc in commands.items():
+        print(f"  {cmd:<16} {desc}")
+
