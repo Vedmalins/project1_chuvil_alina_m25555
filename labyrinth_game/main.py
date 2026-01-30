@@ -1,6 +1,54 @@
 #!/usr/bin/env python3
+from labyrinth_game.player_actions import (
+    get_input,
+    move_player,
+    show_inventory,
+    take_item,
+    use_item,
+)
+from labyrinth_game.utils import describe_current_room, normalize_command
 
-from labyrinth_game.constants import ROOMS, WELCOME_TEXT
+
+def process_command(game_state: dict, command_line: str) -> None:
+    parts = command_line.split()
+    if not parts:
+        return
+
+    command = parts[0]
+    arg = parts[1] if len(parts) > 1 else ""
+
+    match command:
+        case "quit" | "exit":
+            game_state["game_over"] = True
+            print("Выход из игры.")
+
+        case "look":
+            describe_current_room(game_state)
+
+        case "inventory" | "inv":
+            show_inventory(game_state)
+
+        case "go":
+            if not arg:
+                print("Куда идти? Пример: go north")
+            else:
+                move_player(game_state, arg)
+
+        case "take":
+            if not arg:
+                print("Что взять? Пример: take torch")
+            else:
+                take_item(game_state, arg)
+
+        case "use":
+            if not arg:
+                print("Что использовать? Пример: use torch")
+            else:
+                use_item(game_state, arg)
+
+        case _:
+            print("Неизвестная команда. Доступно: look, go, take, use, inventory, quit")
+
 
 
 def main() -> None:
@@ -11,12 +59,16 @@ def main() -> None:
         "steps_taken": 0,
     }
 
-    # В этом шаге убеждаемся, что мы есть и стартовая комната существует
-    print(WELCOME_TEXT)
-    print("Стартовая комната:", game_state["current_room"])
-    print("Доступные комнаты:", ", ".join(ROOMS.keys()))
+    print("Добро пожаловать в Лабиринт сокровищ!")
+    describe_current_room(game_state)
+
+    while not game_state["game_over"]:
+        command_line = normalize_command(get_input("> "))
+        process_command(game_state, command_line)
+
 
 
 if __name__ == "__main__":
     main()
+
 
