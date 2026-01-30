@@ -1,0 +1,10 @@
+# Poetry virtualenv в проекте
+.venv/
+
+dist/
+
+__pycache__/
+*.pyc
+
+.DS_Store
+.vscode/
