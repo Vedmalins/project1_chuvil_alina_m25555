@@ -28,6 +28,20 @@ def move_player(game_state: dict, direction: str) -> bool:
         return False
 
     new_room_name = exits[direction]
+
+    if (
+        new_room_name == "treasure_room"
+        and "rusty_key" not in game_state["player_inventory"]
+    ):
+        print("Дверь заперта. Нужен ключ, чтобы пройти дальше.")
+        return False
+
+    if (
+        new_room_name == "treasure_room"
+        and "rusty_key" in game_state["player_inventory"]
+    ):
+        print("Вы используете найденный ключ, чтобы открыть комнату сокровищ.")
+
     game_state["current_room"] = new_room_name
     game_state["steps_taken"] += 1
     return True
