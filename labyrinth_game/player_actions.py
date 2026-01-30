@@ -37,8 +37,14 @@ def take_item(game_state: dict, item_name: str) -> None:
     current_room_name = game_state["current_room"]
     room = ROOMS[current_room_name]
 
-    if item_name == "treasure_chest":
+    items_in_room = room["items"]
+
+    if item_name == "treasure_chest" and item_name in items_in_room:
         print("Вы не можете поднять сундук, он слишком тяжелый.")
+        return
+
+    if item_name not in items_in_room:
+        print("Такого предмета здесь нет.")
         return
 
 
