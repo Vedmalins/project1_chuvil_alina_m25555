@@ -60,6 +60,25 @@ def pseudo_random(seed: int, modulo: int) -> int:
     return int(frac * modulo)        
 
 
+def trigger_trap(game_state: dict) -> None:
+    print("Ловушка активирована! Пол стал дрожать...")
+
+    inventory = game_state["player_inventory"]
+
+    if inventory:
+        idx = pseudo_random(game_state["steps_taken"], len(inventory))
+        lost_item = inventory.pop(idx)
+        print(f"Вы потеряли предмет: {lost_item}")
+        return
+
+    roll = pseudo_random(game_state["steps_taken"], 10)
+    if roll < 3:
+        print("Вы получили смертельный урон. Вы проиграли.")
+        game_state["game_over"] = True
+    else:
+        print("Вам повезло — вы уцелели.")
+
+
 def attempt_open_treasure(game_state: dict) -> None:
     room_name = game_state["current_room"]
     room = ROOMS[room_name]
