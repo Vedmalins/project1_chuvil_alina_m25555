@@ -1,25 +1,22 @@
 #!/usr/bin/env python3
 
-from labyrinth_game.constants import PROMPT_TEXT, WELCOME_TEXT
-from labyrinth_game.player_actions import show_inventory
-from labyrinth_game.utils import normalize_command
+from labyrinth_game.constants import ROOMS, WELCOME_TEXT
 
 
 def main() -> None:
+    game_state = {
+        "player_inventory": [],
+        "current_room": "entrance",
+        "game_over": False,
+        "steps_taken": 0,
+    }
+
+    # В этом шаге убеждаемся, что мы есть и стартовая комната существует
     print(WELCOME_TEXT)
-
-    inventory: list[str] = []
-
-    while True:
-        command = normalize_command(input(PROMPT_TEXT))
-
-        if command == "exit":
-            break
-        if command == "inv":
-            show_inventory(inventory)
-        else:
-            print("Неизвестная команда. Доступно: inv, exit")
+    print("Стартовая комната:", game_state["current_room"])
+    print("Доступные комнаты:", ", ".join(ROOMS.keys()))
 
 
 if __name__ == "__main__":
     main()
+
