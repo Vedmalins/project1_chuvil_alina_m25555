@@ -1,5 +1,4 @@
 from labyrinth_game.constants import ROOMS
-from labyrinth_game.utils import describe_current_room
 
 
 def get_input(prompt: str = "> ") -> str:
@@ -19,25 +18,29 @@ def show_inventory(game_state: dict) -> None:
         print("Инвентарь: пусто")
 
 
-def move_player(game_state: dict[str, object], direction: str) -> None:
+def move_player(game_state: dict, direction: str) -> bool:
     current_room_name = game_state["current_room"]
     current_room = ROOMS[current_room_name]
 
     exits = current_room["exits"]
     if direction not in exits:
         print("Нельзя пойти в этом направлении.")
-        return
+        return False
 
     new_room_name = exits[direction]
     game_state["current_room"] = new_room_name
     game_state["steps_taken"] += 1
-
-    describe_current_room(game_state)
+    return True
 
 
 def take_item(game_state: dict, item_name: str) -> None:
     current_room_name = game_state["current_room"]
     room = ROOMS[current_room_name]
+
+    if item_name == "treasure_chest":
+        print("Вы не можете поднять сундук, он слишком тяжелый.")
+        return
+
 
     items_in_room = room["items"]
     if item_name not in items_in_room:

@@ -6,7 +6,13 @@ from labyrinth_game.player_actions import (
     take_item,
     use_item,
 )
-from labyrinth_game.utils import describe_current_room, normalize_command, show_help
+from labyrinth_game.utils import (
+    attempt_open_treasure,
+    describe_current_room,
+    normalize_command,
+    show_help,
+    solve_puzzle,
+)
 
 
 def process_command(game_state: dict, command_line: str) -> None:
@@ -32,7 +38,10 @@ def process_command(game_state: dict, command_line: str) -> None:
             if not arg:
                 print("Куда идти? Пример: go north")
             else:
-                move_player(game_state, arg)
+                moved = move_player(game_state, arg)
+                if moved:
+                    describe_current_room(game_state)
+
 
         case "take":
             if not arg:
@@ -45,6 +54,12 @@ def process_command(game_state: dict, command_line: str) -> None:
                 print("Что использовать? Пример: use torch")
             else:
                 use_item(game_state, arg)
+
+        case "solve":
+            if game_state["current_room"] == "treasure_room":
+                attempt_open_treasure(game_state)
+            else:
+                solve_puzzle(game_state)
 
         case "help":
             show_help()
