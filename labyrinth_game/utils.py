@@ -1,3 +1,5 @@
+import math
+
 from labyrinth_game.constants import ROOMS
 
 
@@ -47,6 +49,15 @@ def solve_puzzle(game_state: dict) -> None:
             print("Вы получаете награду: treasure_key!")
     else:
         print("Неверно. Попробуйте снова.")
+
+
+def pseudo_random(seed: int, modulo: int) -> int:
+    if modulo <= 0:
+        return 0
+
+    x = math.sin(seed * 12.9898) * 43758.5453
+    frac = x - math.floor(x)
+    return int(frac * modulo)        
 
 
 def attempt_open_treasure(game_state: dict) -> None:
