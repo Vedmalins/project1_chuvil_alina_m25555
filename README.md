@@ -42,9 +42,9 @@ poetry run project
 - либо с помощью ключа  
 - либо решив финальную загадку
 
-## Демонстрация игрового процесса
+## 🎥 Демонстрация игрового процесса
 
 Ниже представлена запись полного прохождения игры от запуска до победы:
 
-(ПОКА НЕ ЗАПИСАНО)
-[![asciinema](https://asciinema.org/a/XXXXX.svg)](https://asciinema.org/a/XXXXX)
+[![asciinema](https://asciinema.org/a/L7xslIlSmxwyof7L.svg)](https://asciinema.org/a/L7xslIlSmxwyof7L)
+
